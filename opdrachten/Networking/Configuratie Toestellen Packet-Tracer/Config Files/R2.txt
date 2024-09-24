@@ -1,0 +1,148 @@
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname R2
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+ipv6 unicast-routing
+!
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO1941/K9 sn FTX1524Z9C0-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description Connection to ISP switch
+ ip address 192.168.107.251 255.255.255.248
+ duplex auto
+ speed auto
+ ipv6 address 2001:DB8:AC07:150::3/64
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1.1
+ description Default gateway vlan1
+ encapsulation dot1Q 1 native
+ ip address 192.168.107.131 255.255.255.240
+ ip access-group NO-ACCESS-MANAGEMENT out
+ ipv6 traffic-filter NO-ACCESS-MANAGEMENT-IPV6 out
+ ipv6 address 2001:DB8:AC07:1::3/64
+ standby 1 ip 192.168.107.129
+!
+interface GigabitEthernet0/1.11
+ description Default gateway vlan11
+ encapsulation dot1Q 11
+ ip address 192.168.107.3 255.255.255.128
+ ip helper-address 192.168.107.148
+ ip access-group NO-ACCESS-INTERNAL-CLIENTS out
+ ipv6 traffic-filter NO-ACCESS-INTERNAL-CLIENTS-IPV6 out
+ ipv6 address 2001:DB8:AC07:11::3/64
+ standby 1 ip 192.168.107.1
+!
+interface GigabitEthernet0/1.13
+ description Default gateway vlan13
+ encapsulation dot1Q 13
+ ip address 192.168.107.163 255.255.255.248
+ ip access-group NO-ACCESS-PROXY out
+ ipv6 traffic-filter NO-ACCESS-PROXY-IPV6 out
+ ipv6 address 2001:DB8:AC07:13::3/64
+ standby 1 ip 192.168.107.161
+!
+interface GigabitEthernet0/1.42
+ description Default gateway vlan42
+ encapsulation dot1Q 42
+ ip address 192.168.107.147 255.255.255.240
+ ip access-group NO-ACCESS-INTERNAL-SERVER out
+ ipv6 traffic-filter NO-ACCESS-INTERNAL-SERVER-IPV6 out
+ ipv6 address 2001:DB8:AC07:42::3/64
+ standby 1 ip 192.168.107.145
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+ip access-list standard NO-ACCESS-MANAGEMENT
+ permit 192.168.107.128 0.0.0.15
+ deny any
+ip access-list extended NO-ACCESS-PROXY
+ permit tcp any any eq www
+ deny ip any any
+ permit tcp any any eq 443
+ip access-list standard NO-ACCESS-INTERNAL-SERVER
+ permit 192.168.107.0 0.0.0.127
+ permit 192.168.107.160 0.0.0.7
+ permit 192.168.107.144 0.0.0.15
+ deny any
+ip access-list extended NO-ACCESS-INTERNAL-CLIENTS
+ permit ip 192.168.107.0 0.0.0.127 any
+ permit ip 192.168.107.160 0.0.0.7 any
+ permit ip 192.168.107.144 0.0.0.15 any
+ permit tcp any any established
+ deny ip any any
+ipv6 access-list NO-ACCESS-MANAGEMENT-IPV6
+ permit ipv6 2001:DB8:AC07:1::/64 any
+ipv6 access-list NO-ACCESS-PROXY-IPV6
+ permit tcp any any eq www
+ permit tcp any any eq 443
+ipv6 access-list NO-ACCESS-INTERNAL-SERVER-IPV6
+ permit ipv6 2001:DB8:AC07:11::/64 any
+ permit ipv6 2001:DB8:AC07:13::/64 any
+ permit ipv6 2001:DB8:AC07:42::/64 any
+ipv6 access-list NO-ACCESS-INTERNAL-CLIENTS-IPV6
+ permit ipv6 2001:DB8:AC07:11::/64 any
+ permit ipv6 2001:DB8:AC07:13::/64 any
+ permit ipv6 2001:DB8:AC07:42::/64 any
+ permit tcp any any
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+

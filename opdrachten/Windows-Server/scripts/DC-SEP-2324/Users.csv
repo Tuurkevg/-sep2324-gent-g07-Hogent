@@ -1,0 +1,6 @@
+firstname,middleInitial,lastname,username,email,streetaddress,city,zipcode,state,country,department,password,telephone,jobtitle,company,ou
+Emiel,,Lauwers,emiel.l,,,Gent,,,Belgium,Admins,Hogent2324,,DomainAdmin,Blame,"OU=Admins,OU=Company,DC=ad,DC=g07-blame,DC=internal"
+Arthur,,vanginderachter,arthur.v,,,Gent,,,Belgium,Users,Hogent2324,,IT,Blame,"OU=Users,OU=Company,DC=ad,DC=g07-blame,DC=internal"
+Bert,,Coudenys,bert.c,,,Gent,,,Belgium,Users,Hogent2324,,IT,Blame,"OU=Users,OU=Company,DC=ad,DC=g07-blame,DC=internal"
+Lucas,,Luduenasegre,lucas.l,,,Gent,,,Belgium,Guests,Hogent2324,,Consultant,Blame,"OU=Guests,OU=Company,DC=ad,DC=g07-blame,DC=internal"
+Matteo,,Alex,matteo.a,,,Gent,,,Belgium,Guests,Hogent2324,,Consultant,Blame,"OU=Guests,OU=Company,DC=ad,DC=g07-blame,DC=internal"

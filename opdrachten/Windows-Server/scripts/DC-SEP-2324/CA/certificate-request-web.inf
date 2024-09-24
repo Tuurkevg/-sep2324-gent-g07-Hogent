@@ -1,0 +1,23 @@
+[Version]
+Signature="$Windows NT$"
+
+[NewRequest]
+Subject = "CN=G07-BLAME.internal, C=BE, O=Blame, L=Gent, S=Oost-Vlaanderen"
+KeyLength = 2048
+KeySpec = 1
+KeyUsage = 0xA0
+MachineKeySet = True
+ProviderName = "Microsoft RSA SChannel Cryptographic Provider"
+ProviderType = 12
+RequestType = PKCS10
+Exportable = True
+FriendlyName = "SSL Certificate"
+HashAlgorithm = SHA256
+
+[Extensions]
+2.5.29.17 = "{text}"
+_continue_ = "DNS=G07-BLAME.internal&"
+_continue_ = "DNS=*.G07-BLAME.internal&"
+
+[RequestAttributes]
+CertificateTemplate = WebServer

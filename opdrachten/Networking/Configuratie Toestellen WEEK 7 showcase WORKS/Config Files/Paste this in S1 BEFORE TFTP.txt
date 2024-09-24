@@ -1,0 +1,26 @@
+!
+vlan 11
+ name Workstations-Employees
+!
+vlan 42
+ name Internal-Servers
+!
+vlan 13
+ name DMZ
+!
+vlan 99
+ name Reserve
+!
+interface vlan1
+ ip address 192.168.107.132 255.255.255.240
+ no shut
+!
+exit
+!
+ip tftp source-interface vlan 1
+!
+exit
+!
+copy tftp://192.168.107.133/S1.txt running-config
+running-config
+!

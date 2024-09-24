@@ -1,0 +1,290 @@
+!
+! Last configuration change at 12:42:05 UTC Thu Apr 6 2017
+!
+version 16.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+!
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+no aaa new-model
+!
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+ipv6 unicast-routing
+multilink bundle-name authenticated
+!
+!
+!
+crypto pki trustpoint TP-self-signed-2044259395
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2044259395
+ revocation-check none
+ rsakeypair TP-self-signed-2044259395
+!
+!
+crypto pki certificate chain TP-self-signed-2044259395
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 32303434 32353933 3935301E 170D3137 30343036 31323233
+  35375A17 0D333030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 30343432
+  35393339 35308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201
+  0A028201 0100DFA5 37526581 4A3E71D6 AB3AE4FD C39F9768 5541AE0D E30D62BF
+  72DF38A7 B97FB36F A9EC209D EF5D884A 2094D9ED 40EEB83D 164D6A40 BB2DF013
+  BB0DBCEB 91228292 F55892F0 16D77D58 5E84D356 0FD026C5 A755ADD2 FA38A323
+  0993A477 365C2203 FA64DF29 9F12BFDD 6E8E56B8 C64FFF65 41FD1E13 F6D650EB
+  1D985465 70E6DFC9 7B632BFE 0C2FF5D6 E9AF39A7 768E327B D3847A62 2F4C2E4B
+  6954CDA8 2375B084 24F0135B 9D304E09 CD002B8D 7516FCF4 4B0EEE8D 1D29FD5B
+  3DFF1795 8BF18DF6 6B99F123 F2C07F5E EC5C0DB2 EFCD5B72 8291940C 845AB71A
+  0941143E 8362DE29 CDC5EE30 E6DCB454 43733013 DDA6D8D0 0448501D 1D33118A
+  7925D7E8 30530203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF
+  301F0603 551D2304 18301680 14E7A854 E8183630 4A192B4A 6765BA51 9DBFD0D4
+  FE301D06 03551D0E 04160414 E7A854E8 1836304A 192B4A67 65BA519D BFD0D4FE
+  300D0609 2A864886 F70D0101 05050003 82010100 0533A5D7 DE2C33E1 FD1FA400
+  BDFC4BA3 75CF6553 234CE751 66276F65 464825A6 FCB2CF11 1EAE5D1C 3C26056B
+  A4EAFBA8 85B3D8D5 2ADEDF73 345DBB04 F5ADBFE4 E644A4F1 0604605D B8F9F143
+  6E39E737 EBEFA370 E42B5173 6F2045F3 88675423 140384ED 1668CC54 B33FB4A3
+  E4F1C880 6707EC16 EA37E5B8 7F872BB7 E8294934 D2D21179 03184168 35BB0FA7
+  9C012776 A903E6C7 92DBE566 D34F9EF9 7888C1B1 199AF9D3 3C373D49 D3FBA5A0
+  3F0F0D3C 2E65A9AD 1E85432A 9FD9B7EB 1168FDF1 5D5A6336 18968F30 FD522111
+  1B184E12 A01FBAB2 874E29E7 CEC58842 495C489F E68C3359 08D32264 B6B95DB8
+  25BDF623 50E3BED3 DCDC82CB 14407085 8DA22D5F
+        quit
+!
+license udi pid ISR4321/K9 sn FDO22273YWH
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ description Connection to ISP switch
+ ip address 172.22.200.207 255.255.0.0
+ standby version 2
+ standby 207 ip 172.22.200.7
+ standby 207 priority 100
+ standby 207 preempt
+ ip nat outside
+ negotiation auto
+ no shutdown
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ negotiation auto
+ no shutdown
+!
+interface GigabitEthernet0/0/1.1
+ description Default gateway vlan1
+ encapsulation dot1Q 1 native
+ ip address 192.168.107.131 255.255.255.240
+ ip access-group NO-ACCESS-MANAGEMENT out
+ ipv6 traffic-filter NO-ACCESS-MANAGEMENT-IPV6 out
+ standby version 2
+ standby 1 ip 192.168.107.129
+ standby 1 preempt
+ ipv6 address 2001:DB8:AC07:1::3/64
+ standby 2 ipv6 2001:DB8:AC07:1::1/64
+ standby 2 preempt
+ ip nat inside
+!
+interface GigabitEthernet0/0/1.11
+ description Default gateway vlan11
+ encapsulation dot1Q 11
+ ip address 192.168.107.3 255.255.255.128
+ ip helper-address 192.168.107.148
+ ip access-group NO-ACCESS-INTERNAL-CLIENTS out
+ ipv6 traffic-filter NO-ACCESS-INTERNAL-CLIENTS-IPV6 out
+ standby version 2
+ standby 1 ip 192.168.107.1
+ standby 1 preempt
+ ipv6 address 2001:DB8:AC07:11::3/64
+ standby 2 ipv6 2001:DB8:AC07:11::1/64
+ standby 2 preempt
+ ip nat inside
+!
+interface GigabitEthernet0/0/1.13
+ description Default gateway vlan13
+ encapsulation dot1Q 13
+ ip address 192.168.107.163 255.255.255.248
+ ip access-group NO-ACCESS-PROXY out
+ ipv6 traffic-filter NO-ACCESS-PROXY-IPV6 out
+ standby version 2
+ standby 1 ip 192.168.107.161
+ standby 1 preempt
+ ipv6 address 2001:DB8:AC07:13::3/64
+ standby 2 ipv6 2001:DB8:AC07:13::1/64
+ standby 2 preempt
+ ip nat inside
+!
+interface GigabitEthernet0/0/1.42
+ description Default gateway vlan42
+ encapsulation dot1Q 42
+ ip address 192.168.107.147 255.255.255.240
+ ip access-group NO-ACCESS-INTERNAL-SERVER out
+ ipv6 traffic-filter NO-ACCESS-INTERNAL-SERVER-IPV6 out
+ standby version 2
+ standby 1 ip 192.168.107.145
+ standby 1 preempt
+ ipv6 address 2001:DB8:AC07:42::3/64
+ standby 2 ipv6 2001:DB8:AC07:42::1/64
+ standby 2 preempt
+ ip nat inside
+!
+interface Serial0/1/0
+!
+interface Serial0/1/1
+!
+interface GigabitEthernet0
+ vrf forwarding Mgmt-intf
+ no ip address
+ shutdown
+ negotiation auto
+!
+ip forward-protocol nd
+no ip http server
+ip http authentication local
+no ip http secure-server
+ip tftp source-interface GigabitEthernet0
+ip nat inside source static tcp 192.168.107.164 80 172.22.200.7 80 extendable
+ip nat inside source static tcp 192.168.107.164 443 172.22.200.7 443 extendable
+ip nat inside source list PUBLICIP interface GigabitEthernet0/0/0 overload
+ip route 0.0.0.0 0.0.0.0 GigabitEthernet0/0/0
+!
+!
+ip access-list standard PUBLICIP
+ permit 192.168.107.0 0.0.0.255
+ deny   any
+!
+ip access-list extended NO-ACCESS-MANAGEMENT
+ permit ip 192.168.107.128 0.0.0.15 any
+ permit icmp any any echo
+ permit icmp any any echo-reply
+ deny ip any any
+!
+ip access-list extended NO-ACCESS-INTERNAL-SERVER
+ permit tcp host 192.168.107.164 host 192.168.107.148 eq 22
+ permit udp any any
+ permit tcp any any established
+ permit icmp any any echo
+ permit icmp any any echo-reply
+ permit ip 192.168.107.0 0.0.0.127 any
+ permit ip 192.168.107.160 0.0.0.7 any
+ permit ip 192.168.107.144 0.0.0.15 any
+ deny ip any any
+!
+ip access-list extended NO-ACCESS-INTERNAL-CLIENTS
+ permit ip 192.168.107.0 0.0.0.127 any
+ permit ip 192.168.107.160 0.0.0.7 any
+ permit ip 192.168.107.144 0.0.0.15 any
+ permit tcp any any established
+ permit icmp any any echo
+ permit icmp any any echo-reply
+ deny ip any any
+!
+ip access-list extended NO-ACCESS-PROXY
+ permit ip 192.168.107.150 0.0.0.0 host 192.168.107.164
+ permit tcp host 192.168.107.148 host 192.168.107.164 eq 22
+ permit tcp any any established
+ permit tcp any any eq 443
+ permit tcp any any eq www
+ permit icmp any any echo
+ permit icmp any any echo-reply
+ deny ip any any
+!
+!
+!
+!
+!
+ipv6 access-list NO-ACCESS-MANAGEMENT-IPV6
+ permit ipv6 2001:DB8:AC07:1::/64 any
+ permit icmp any any echo-request
+ permit icmp any any echo-reply
+ permit icmp any any
+!
+ipv6 access-list NO-ACCESS-PROXY-IPV6
+ permit ipv6 host 2001:db8:ac07:42::6 host 2001:db8:ac07:13::4
+ permit tcp any any established
+ permit tcp any any eq www
+ permit tcp any any eq 443
+ permit icmp any any echo-request
+ permit icmp any any echo-reply
+ permit icmp any any
+!
+ipv6 access-list NO-ACCESS-INTERNAL-SERVER-IPV6
+ permit udp any any
+ permit tcp any any established
+ permit ipv6 2001:DB8:AC07:11::/64 any
+ permit ipv6 2001:DB8:AC07:13::/64 any
+ permit ipv6 2001:DB8:AC07:42::/64 any
+ permit icmp any any echo-request
+ permit icmp any any echo-reply
+ permit icmp any any
+!
+ipv6 access-list NO-ACCESS-INTERNAL-CLIENTS-IPV6
+ permit ipv6 2001:DB8:AC07:11::/64 any
+ permit ipv6 2001:DB8:AC07:13::/64 any
+ permit ipv6 2001:DB8:AC07:42::/64 any
+ permit tcp any any established
+ permit icmp any any echo-request
+ permit icmp any any echo-reply
+ permit icmp any any
+!
+!
+control-plane
+!
+!
+line con 0
+ transport input none
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ login
+!
+!
+!
+!
+!
+!
+end
+

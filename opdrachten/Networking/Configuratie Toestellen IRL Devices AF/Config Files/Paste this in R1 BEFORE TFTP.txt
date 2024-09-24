@@ -1,0 +1,14 @@
+!
+interface g0/0/1
+ ip address 192.168.107.135 255.255.255.240
+ no shut
+!
+exit
+!
+ip tftp source-interface g0/0/1
+!
+exit
+!
+copy tftp://192.168.107.133/R1.txt running-config
+running-config
+!

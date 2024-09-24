@@ -1,0 +1,38 @@
+body {
+  background-color: #2d2d2d;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  max-width: 700px;
+  margin: auto;
+  padding-inline: 40px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #3e8e41;
+}
+
+#choice {
+  display: none;
+}
+
+#text {
+  display: none;
+}
